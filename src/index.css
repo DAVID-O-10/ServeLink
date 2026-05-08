@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ============================================
+   ServeLink — Global Styles
+   Add to: src/index.css  (import in main.jsx)
+   ============================================ */
+
+/* Smooth scroll for the whole page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Hide scrollbar on Windows but keep scroll functionality */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #10b981;
+}
+
+/* Selection color matches brand */
+::selection {
+  background: #10b981;
+  color: #fff;
+}
+::-moz-selection {
+  background: #10b981;
+  color: #fff;
+}
+
+/* Remove tap highlight on mobile */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Smooth image rendering */
+img {
+  image-rendering: -webkit-optimize-contrast;
+}
+
+/* Page fade-in on load */
+#root {
+  animation: pageLoad 0.4s ease-out;
+}
+
+@keyframes pageLoad {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Prevent layout shift on modal open */
+body.modal-open {
+  overflow: hidden;
+  padding-right: var(--scrollbar-width, 6px);
+}
+
+/* Focus ring — accessible but styled */
+:focus-visible {
+  outline: 2px solid #10b981;
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Remove default focus ring on mouse clicks */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Utility — text gradient */
+.text-gradient-brand {
+  background: linear-gradient(135deg, #10b981 0%, #1d4ed8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
