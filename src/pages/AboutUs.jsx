@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import laptop from "../assets/carlos-muza-hpjSkU2UYSU-unsplash.jpg"
+import laptop from "../assets/Screenshot 2026-05-13 125901.png"
 
 /* ─── tiny count-up hook ─── */
 function useCountUp(target, duration = 1400, start = false) {
@@ -148,7 +148,7 @@ export default function AboutUs() {
 
             {/* main image card */}
             <div
-              className="relative rounded-3xl overflow-hidden shadow-2xl"
+              className="relative rounded-3xl overflow-hidden shadow-2xl "
               style={{
                 zIndex: 1,
                 aspectRatio: '4/3',
@@ -158,7 +158,7 @@ export default function AboutUs() {
               <img
                 src={laptop}
                 alt="ServeLink — connecting businesses and customers"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover object-center"
                 style={{ transform: 'scale(1.02)' }}
               />
               {/* subtle gradient overlay on image */}
@@ -226,7 +226,7 @@ export default function AboutUs() {
                 backgroundClip: 'text',
               }}
             >
-              growing&nbsp;economy
+              growing&nbsp;<br />economy
             </span>
           </h2>
 

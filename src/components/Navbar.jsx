@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import logo from "../assets/ServeLink Logo-Photoroom.png"
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -55,9 +56,9 @@ function Navbar() {
         {/* Logo */}
         <NavLink to='/' onClick={() => setMenuOpen(false)}>
           <img
-            src="/src/assets/ServeLink Logo-Photoroom.png"
+            src={logo}
             alt="ServeLink Logo"
-            style={{ height: '5rem' }}
+            style={{ height: '4.5rem' }}
           />
         </NavLink>
 

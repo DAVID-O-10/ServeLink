@@ -31,7 +31,7 @@ function Home() {
   return (
     <>
       {/* HERO SECTION — id="home" for navbar scroll */}
-      <section id="home" className="relative w-full h-screen overflow-hidden">
+      <section id="home" className="relative w-full h-[110vh] overflow-hidden">
  
         {/* Background images */}
         {images.map((img, index) => (
@@ -56,14 +56,14 @@ function Home() {
  
           {/* Badge */}
           <div
-            className="mb-6 px-5 py-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm text-white/80 text-sm font-medium tracking-widest uppercase"
+            className="mt-10 mb-2 px-5 py-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm text-white/80 text-sm font-medium tracking-widest uppercase"
             style={{
               opacity: loaded ? 1 : 0,
               transform: loaded ? 'translateY(0)' : 'translateY(20px)',
               transition: 'opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s',
             }}
           >
-            Nigeria's Business Marketplace
+            Businesses Marketplace
           </div>
  
           {/* Main heading */}
@@ -151,7 +151,7 @@ function Home() {
         {/* Scroll down indicator */}
         <button
           onClick={handleScrollDown}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 text-white/60 hover:text-white transition-all duration-300 flex flex-col items-center gap-1"
+          className="absolute bottom-30 left-[103vh] -translate-x-1/2 z-20 text-white/60 hover:text-white transition-all duration-300 flex flex-col items-center gap-1"
           style={{
             opacity: loaded ? 1 : 0,
             transition: 'opacity 1s ease 1.5s',
