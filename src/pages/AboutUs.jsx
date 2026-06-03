@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { useBusinesses } from '../context/BusinessContext'
 import laptop from "../assets/Screenshot 2026-05-13 125901.png"
 
 /* ─── tiny count-up hook ─── */
@@ -25,20 +26,14 @@ function StatCard({ value, label, delay, inView }) {
   const count = useCountUp(value, 1200, inView)
   return (
     <div
-      className="relative flex flex-col items-center justify-center py-8 px-4 rounded-3xl overflow-hidden"
+      className="relative flex flex-col items-center justify-center py-8 px-4 rounded-3xl overflow-hidden border border-emerald-100 dark:border-emerald-900/40 bg-gradient-to-br from-emerald-50 to-emerald-100/90 dark:from-gray-800 dark:to-gray-800/80"
       style={{
-        background: 'linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%)',
-        border: '1px solid #d1fae5',
         opacity: inView ? 1 : 0,
         transform: inView ? 'translateY(0)' : 'translateY(20px)',
         transition: `opacity 0.6s ease ${delay}ms, transform 0.6s ease ${delay}ms`,
       }}
     >
-      {/* subtle background circle */}
-      <div
-        className="absolute -top-4 -right-4 w-20 h-20 rounded-full"
-        style={{ background: 'radial-gradient(circle, #bbf7d0 0%, transparent 70%)' }}
-      />
+      <div className="absolute -top-4 -right-4 w-20 h-20 rounded-full bg-emerald-200/60 dark:bg-emerald-500/10" />
       <span
         className="text-5xl sm:text-6xl font-black tabular-nums"
         style={{
@@ -51,7 +46,7 @@ function StatCard({ value, label, delay, inView }) {
       >
         {count}
       </span>
-      <p className="mt-2 text-gray-600 text-sm font-semibold text-center tracking-wide uppercase">
+      <p className="mt-2 text-gray-600 dark:text-gray-400 text-sm font-semibold text-center tracking-wide uppercase">
         {label}
       </p>
     </div>
@@ -60,25 +55,9 @@ function StatCard({ value, label, delay, inView }) {
 
 /* ─── main component ─── */
 export default function AboutUs() {
-  const [businesses, setBusinesses] = useState([])
+  const { businesses } = useBusinesses()
   const [inView, setInView] = useState(false)
   const sectionRef = useRef(null)
-
-  /* load & sync businesses */
-  const loadBusinesses = () => {
-    try {
-      const saved = localStorage.getItem('marketplaceBusinesses')
-      setBusinesses(saved ? JSON.parse(saved) : [])
-    } catch {
-      setBusinesses([])
-    }
-  }
-
-  useEffect(() => {
-    loadBusinesses()
-    window.addEventListener('storage', loadBusinesses)
-    return () => window.removeEventListener('storage', loadBusinesses)
-  }, [])
 
   /* intersection observer for scroll-triggered animations */
   useEffect(() => {
@@ -92,7 +71,7 @@ export default function AboutUs() {
 
   /* ── FIX: use correct field names matching Marketplace.jsx ── */
   const registeredBusinesses = businesses.length
-  const uniqueCategories = new Set(businesses.map(b => b.businessType).filter(Boolean)).size
+  const uniqueCategories = new Set(businesses.map(b => b.category || b.businessType).filter(Boolean)).size
   const uniqueLocations = new Set(businesses.map(b => b.address).filter(Boolean)).size
 
   const stats = [
@@ -105,24 +84,12 @@ export default function AboutUs() {
     <section
       id="about"
       ref={sectionRef}
-      className="w-full bg-white py-24 px-4 sm:px-8 lg:px-16 overflow-hidden"
+      className="w-full bg-white dark:bg-gray-900 py-24 px-4 sm:px-8 lg:px-16 overflow-hidden transition-colors duration-300"
       style={{ position: 'relative' }}
     >
       {/* decorative background blobs */}
-      <div
-        className="pointer-events-none absolute top-0 right-0 w-96 h-96 rounded-full"
-        style={{
-          background: 'radial-gradient(circle, rgba(16,185,129,0.07) 0%, transparent 70%)',
-          transform: 'translate(30%, -30%)',
-        }}
-      />
-      <div
-        className="pointer-events-none absolute bottom-0 left-0 w-80 h-80 rounded-full"
-        style={{
-          background: 'radial-gradient(circle, rgba(29,78,216,0.06) 0%, transparent 70%)',
-          transform: 'translate(-30%, 30%)',
-        }}
-      />
+      <div className="pointer-events-none absolute top-0 right-0 w-96 h-96 rounded-full bg-emerald-500/10 dark:bg-emerald-500/5 translate-x-[30%] -translate-y-[30%]" />
+      <div className="pointer-events-none absolute bottom-0 left-0 w-80 h-80 rounded-full bg-blue-500/10 dark:bg-blue-500/5 -translate-x-[30%] translate-y-[30%]" />
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
@@ -137,14 +104,7 @@ export default function AboutUs() {
           {/* stacked card effect */}
           <div className="relative">
             {/* back card — decorative */}
-            <div
-              className="absolute inset-0 rounded-3xl"
-              style={{
-                background: 'linear-gradient(135deg, #d1fae5, #dbeafe)',
-                transform: 'rotate(3deg) translate(10px, 10px)',
-                zIndex: 0,
-              }}
-            />
+            <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-emerald-100 to-blue-100 dark:from-gray-800 dark:to-gray-700 rotate-[3deg] translate-x-2.5 translate-y-2.5 z-0" />
 
             {/* main image card */}
             <div
@@ -170,14 +130,7 @@ export default function AboutUs() {
               />
 
               {/* floating badge on image */}
-              <div
-                className="absolute bottom-5 left-5 flex items-center gap-3 px-4 py-3 rounded-2xl"
-                style={{
-                  background: 'rgba(255,255,255,0.92)',
-                  backdropFilter: 'blur(12px)',
-                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-                }}
-              >
+              <div className="absolute bottom-5 left-5 flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/90 dark:bg-gray-800/90 backdrop-blur-md shadow-lg">
                 <div
                   className="w-3 h-3 rounded-full"
                   style={{
@@ -186,7 +139,7 @@ export default function AboutUs() {
                     animation: 'pulse 2s ease-in-out infinite',
                   }}
                 />
-                <span className="text-gray-800 text-sm font-semibold">Live Marketplace</span>
+                <span className="text-gray-800 dark:text-gray-100 text-sm font-semibold">Live Marketplace</span>
               </div>
             </div>
           </div>
@@ -214,7 +167,7 @@ export default function AboutUs() {
 
           {/* heading */}
           <h2
-            className="text-4xl sm:text-5xl font-black text-gray-900 leading-tight"
+            className="text-4xl sm:text-5xl font-black text-gray-900 dark:text-white leading-tight"
             style={{ letterSpacing: '-0.02em' }}
           >
             Built for Nigeria's&nbsp;
@@ -231,14 +184,14 @@ export default function AboutUs() {
           </h2>
 
           {/* body */}
-          <p className="text-gray-600 text-base sm:text-lg leading-[1.85] font-normal">
+          <p className="text-gray-600 dark:text-gray-300 text-base sm:text-lg leading-[1.85] font-normal">
             ServeLink connects people with trusted businesses and service providers —
             quickly, easily, and without the stress. We give SMEs and everyday services
             like repairs, tutoring, and personal care the visibility they deserve, while
             helping users discover, compare, and contact vendors in their area.
           </p>
 
-          <p className="text-gray-500 text-sm sm:text-base leading-relaxed">
+          <p className="text-gray-500 dark:text-gray-400 text-sm sm:text-base leading-relaxed">
             Clean. Mobile-friendly. Built on convenience, reliability, and the belief
             that stronger connections make stronger communities.
           </p>

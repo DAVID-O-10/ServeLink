@@ -54,7 +54,7 @@ function Avatar({ t, index, inView, onClick }) {
       {/* Avatar image */}
       <div
         className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-full bg-cover bg-center
-                   ring-2 ring-white/20 group-hover:ring-4 group-active:scale-95
+                   ring-2 ring-gray-200 dark:ring-white/20 group-hover:ring-4 group-active:scale-95
                    transition-all duration-300 shadow-xl"
         style={{
           backgroundImage: `url(${t.image})`,
@@ -129,18 +129,13 @@ function TestimonialPopup({ t, anchorRect, onClose }) {
       role="dialog"
       aria-modal="true"
       aria-label={`${t.name}'s testimonial`}
+      className="rounded-[20px] p-5 backdrop-blur-xl bg-white/95 dark:bg-slate-900/92 shadow-2xl dark:shadow-[0_24px_60px_rgba(0,0,0,0.45)] border"
       style={{
         position: "fixed",
         zIndex: 9999,
         width: `${POPUP_W}px`,
         ...pos,
-        background: "rgba(15, 23, 42, 0.92)",
-        backdropFilter: "blur(20px)",
-        WebkitBackdropFilter: "blur(20px)",
-        border: `1px solid ${t.accent}44`,
-        borderRadius: "20px",
-        padding: "20px",
-        boxShadow: `0 24px 60px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.06), inset 0 1px 0 rgba(255,255,255,0.08)`,
+        borderColor: `${t.accent}44`,
         animation: "popIn 0.25s cubic-bezier(0.34,1.56,0.64,1) forwards",
       }}
     >
@@ -152,7 +147,7 @@ function TestimonialPopup({ t, anchorRect, onClose }) {
         />
         <div className="min-w-0">
           <div className="flex items-center gap-2">
-            <p className="text-white font-bold text-sm leading-tight truncate">{t.name}</p>
+            <p className="text-gray-900 dark:text-white font-bold text-sm leading-tight truncate">{t.name}</p>
             <span
               className="text-[9px] px-1.5 py-0.5 rounded-full font-semibold shrink-0"
               style={{ background: `${t.accent}22`, color: t.accent, border: `1px solid ${t.accent}44` }}
@@ -167,7 +162,7 @@ function TestimonialPopup({ t, anchorRect, onClose }) {
       {/* Quote mark */}
       <div className="text-4xl leading-none font-serif mb-1" style={{ color: `${t.accent}55` }}>"</div>
 
-      <p className="text-gray-300 text-sm leading-relaxed -mt-2">{t.text}</p>
+      <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed -mt-2">{t.text}</p>
 
       <div className="flex items-center justify-between mt-4">
         <Stars count={t.rating} accent={t.accent} />
@@ -238,19 +233,15 @@ export default function Testimonials() {
       <section
         id="testimonials"
         ref={sectionRef}
-        className="relative w-full overflow-hidden py-24 px-4 sm:px-10 lg:px-20"
-        style={{
-          background: "linear-gradient(160deg, #0f172a 0%, #111827 55%, #0f172a 100%)",
-        }}
+        className="relative w-full overflow-hidden py-24 px-4 sm:px-10 lg:px-20 transition-colors duration-300
+          bg-gradient-to-br from-gray-50 via-white to-emerald-50/40
+          dark:from-slate-900 dark:via-gray-900 dark:to-slate-900"
       >
         {/* Background mesh */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full"
-            style={{ background: "radial-gradient(circle, rgba(16,185,129,0.08) 0%, transparent 70%)" }} />
-          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full"
-            style={{ background: "radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%)" }} />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full"
-            style={{ background: "radial-gradient(circle, rgba(255,255,255,0.02) 0%, transparent 60%)" }} />
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-emerald-400/20 dark:bg-emerald-500/10 blur-3xl" />
+          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-blue-400/15 dark:bg-blue-500/10 blur-3xl" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-gray-200/40 dark:bg-white/5 blur-3xl" />
         </div>
 
         {/* Section header */}
@@ -264,7 +255,7 @@ export default function Testimonials() {
         >
           <div className="inline-flex items-center gap-2 mb-4">
             <div className="w-8 h-px bg-emerald-500" />
-            <span className="text-xs font-bold tracking-[0.2em] uppercase text-emerald-400">
+            <span className="text-xs font-bold tracking-[0.2em] uppercase text-emerald-600 dark:text-emerald-400">
               Real Voices
             </span>
             <div className="w-8 h-px bg-emerald-500" />
@@ -274,7 +265,7 @@ export default function Testimonials() {
             className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight"
             style={{ letterSpacing: "-0.02em" }}
           >
-            <span className="text-white">What people </span>
+            <span className="text-gray-900 dark:text-white">What people </span>
             <span
               style={{
                 background: "linear-gradient(135deg, #10b981 0%, #3b82f6 100%)",
@@ -287,7 +278,7 @@ export default function Testimonials() {
             </span>
           </h2>
 
-          <p className="mt-4 text-gray-400 text-base sm:text-lg max-w-xl mx-auto">
+          <p className="mt-4 text-gray-600 dark:text-gray-400 text-base sm:text-lg max-w-xl mx-auto">
             Tap any face to read their story. Real users, real results.
           </p>
         </div>
@@ -296,13 +287,12 @@ export default function Testimonials() {
         <div className="relative max-w-4xl mx-auto">
           {/* Subtle connecting line grid — purely decorative */}
           <svg
-            className="absolute inset-0 w-full h-full pointer-events-none"
-            style={{ opacity: 0.06 }}
+            className="absolute inset-0 w-full h-full pointer-events-none text-gray-300 dark:text-white opacity-[0.15] dark:opacity-[0.06]"
             aria-hidden="true"
           >
             <defs>
               <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
-                <path d="M 80 0 L 0 0 0 80" fill="none" stroke="white" strokeWidth="0.5" />
+                <path d="M 80 0 L 0 0 0 80" fill="none" stroke="currentColor" strokeWidth="0.5" />
               </pattern>
             </defs>
             <rect width="100%" height="100%" fill="url(#grid)" />
@@ -346,16 +336,13 @@ export default function Testimonials() {
             transition: "opacity 0.8s ease 1s",
           }}
         >
-          <p className="text-gray-500 text-xs tracking-widest uppercase">
+          <p className="text-gray-500 dark:text-gray-500 text-xs tracking-widest uppercase">
             Click any avatar to read their testimonial
           </p>
         </div>
 
         {/* Bottom gradient fade */}
-        <div
-          className="pointer-events-none absolute bottom-0 left-0 right-0 h-20"
-          style={{ background: "linear-gradient(to top, #0f172a, transparent)" }}
-        />
+        <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-gray-50 dark:from-slate-900 to-transparent" />
       </section>
 
       {/* Popup — rendered outside section, effectively fixed to viewport */}

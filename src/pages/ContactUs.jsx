@@ -15,7 +15,10 @@ function ContactUs() {
   }, []);
 
   return (
-    <section className="w-full min-h-screen flex items-center justify-center bg-gray-50">
+    <section
+      id="contact"
+      className="w-full min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 transition-colors duration-300"
+    >
       <div className="w-full max-w-5xl">
         <div
           className="visme_d"
@@ -30,5 +33,4 @@ function ContactUs() {
     </section>
   );
 }
-
 export default ContactUs;

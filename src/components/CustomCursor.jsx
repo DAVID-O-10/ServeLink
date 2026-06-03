@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function CustomCursor() {
   const dotRef = useRef(null);
@@ -6,18 +6,23 @@ export default function CustomCursor() {
   const [isVisible, setIsVisible] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
+  const [overExcluded, setOverExcluded] = useState(false);
 
   const pos = useRef({ x: 0, y: 0 });
   const ringPos = useRef({ x: 0, y: 0 });
   const rafId = useRef(null);
 
+  const isExcluded = (target) =>
+    Boolean(target?.closest?.('[data-no-custom-cursor]'));
+
   useEffect(() => {
-    // Don't render on touch devices
-    if (window.matchMedia('(hover: none)').matches) return;
+    if (!window.matchMedia('(pointer: fine)').matches) return;
 
     const onMove = (e) => {
       pos.current = { x: e.clientX, y: e.clientY };
-      if (!isVisible) setIsVisible(true);
+      const excluded = isExcluded(e.target);
+      setOverExcluded(excluded);
+      setIsVisible(!excluded);
     };
 
     const onEnter = () => setIsVisible(true);
@@ -26,12 +31,20 @@ export default function CustomCursor() {
     const onMouseUp = () => setIsClicking(false);
 
     const onHoverStart = (e) => {
-      const el = e.target.closest('a, button, [role="button"], input, select, textarea, label[for], [data-cursor="pointer"]');
-      if (el) setIsHovering(true);
+      if (isExcluded(e.target)) {
+        setIsHovering(false);
+        return;
+      }
+      const el = e.target.closest(
+        'a, button, [role="button"], input, select, textarea, label[for], [data-cursor="pointer"]'
+      );
+      if (el && !isExcluded(el)) setIsHovering(true);
     };
 
     const onHoverEnd = (e) => {
-      const el = e.target.closest('a, button, [role="button"], input, select, textarea, label[for], [data-cursor="pointer"]');
+      const el = e.target.closest(
+        'a, button, [role="button"], input, select, textarea, label[for], [data-cursor="pointer"]'
+      );
       if (el) setIsHovering(false);
     };
 
@@ -43,7 +56,6 @@ export default function CustomCursor() {
     document.addEventListener('mouseover', onHoverStart);
     document.addEventListener('mouseout', onHoverEnd);
 
-    // Smooth ring animation loop
     const animate = () => {
       const lerp = (a, b, t) => a + (b - a) * t;
       ringPos.current.x = lerp(ringPos.current.x, pos.current.x, 0.12);
@@ -72,9 +84,10 @@ export default function CustomCursor() {
     };
   }, []);
 
+  const showCursor = isVisible && !overExcluded;
+
   return (
     <>
-      {/* Dot — snaps to cursor position */}
       <div
         ref={dotRef}
         style={{
@@ -87,14 +100,12 @@ export default function CustomCursor() {
           background: isHovering ? '#10b981' : '#1d4ed8',
           pointerEvents: 'none',
           zIndex: 99999,
-          opacity: isVisible ? 1 : 0,
+          opacity: showCursor ? 1 : 0,
           transition: 'opacity 0.3s, background 0.2s, width 0.15s, height 0.15s',
           willChange: 'transform',
-          mixBlendMode: 'normal',
         }}
       />
 
-      {/* Ring — lags behind */}
       <div
         ref={ringRef}
         style={{
@@ -107,16 +118,24 @@ export default function CustomCursor() {
           border: `1.5px solid ${isHovering ? '#10b981' : '#1d4ed8'}`,
           pointerEvents: 'none',
           zIndex: 99998,
-          opacity: isVisible ? (isHovering ? 0.8 : 0.5) : 0,
-          transition: 'opacity 0.3s, width 0.25s cubic-bezier(0.34,1.56,0.64,1), height 0.25s cubic-bezier(0.34,1.56,0.64,1), border-color 0.2s',
+          opacity: showCursor ? (isHovering ? 0.8 : 0.5) : 0,
+          transition:
+            'opacity 0.3s, width 0.25s cubic-bezier(0.34,1.56,0.64,1), height 0.25s cubic-bezier(0.34,1.56,0.64,1), border-color 0.2s',
           willChange: 'transform',
         }}
       />
 
-      {/* Hide native cursor globally */}
       <style>{`
         * { cursor: none !important; }
-        @media (hover: none) {
+        [data-no-custom-cursor],
+        [data-no-custom-cursor] * {
+          cursor: auto !important;
+        }
+        [data-no-custom-cursor] a,
+        [data-no-custom-cursor] button {
+          cursor: pointer !important;
+        }
+        @media not all and (pointer: fine) {
           * { cursor: auto !important; }
         }
       `}</style>

@@ -1,28 +1,37 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-brand: #10b981;
+  --color-brand-dark: #059669;
+  --color-brand-light: #34d399;
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
     transform: scale(0.95);
   }
-
   to {
     opacity: 1;
     transform: scale(1);
   }
 }
 
-/* ============================================
-   ServeLink — Global Styles
-   Add to: src/index.css  (import in main.jsx)
-   ============================================ */
-
-/* Smooth scroll for the whole page */
 html {
   scroll-behavior: smooth;
 }
 
-/* Hide scrollbar on Windows but keep scroll functionality */
+body {
+  font-family: var(--font-sans);
+}
+
+.dark body {
+  @apply bg-gray-900 text-gray-100;
+}
+
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -33,31 +42,22 @@ html {
   background: #d1d5db;
   border-radius: 999px;
 }
+.dark ::-webkit-scrollbar-thumb {
+  background: #4b5563;
+}
 ::-webkit-scrollbar-thumb:hover {
-  background: #10b981;
+  background: var(--color-brand);
 }
 
-/* Selection color matches brand */
 ::selection {
-  background: #10b981;
-  color: #fff;
-}
-::-moz-selection {
-  background: #10b981;
+  background: var(--color-brand);
   color: #fff;
 }
 
-/* Remove tap highlight on mobile */
 * {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Smooth image rendering */
-img {
-  image-rendering: -webkit-optimize-contrast;
-}
-
-/* Page fade-in on load */
 #root {
   animation: pageLoad 0.4s ease-out;
 }
@@ -67,28 +67,37 @@ img {
   to { opacity: 1; }
 }
 
-/* Prevent layout shift on modal open */
-body.modal-open {
-  overflow: hidden;
-  padding-right: var(--scrollbar-width, 6px);
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  #root {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
-/* Focus ring — accessible but styled */
 :focus-visible {
-  outline: 2px solid #10b981;
+  outline: 2px solid var(--color-brand);
   outline-offset: 3px;
   border-radius: 6px;
 }
 
-/* Remove default focus ring on mouse clicks */
 :focus:not(:focus-visible) {
   outline: none;
 }
 
-/* Utility — text gradient */
 .text-gradient-brand {
-  background: linear-gradient(135deg, #10b981 0%, #1d4ed8 100%);
+  background: linear-gradient(135deg, var(--color-brand) 0%, #1d4ed8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+@import 'leaflet/dist/leaflet.css';

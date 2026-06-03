@@ -1,30 +1,19 @@
-import { Route, Routes } from "react-router-dom"
-import Navbar from "./components/Navbar"
-import Marketplace from "./pages/Marketplace"
-import Footer from "./components/Footer"
-import LandingPage from "./pages/LandingPage"
-import CustomCursor from "./components/CustomCursor"
-
-
-
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import CustomCursor from './components/CustomCursor';
+import PageTransition from './components/PageTransition';
+import SEO from './components/SEO';
 
 function App() {
-  
-
   return (
     <>
-    <CustomCursor/>
-    <Navbar />
-
-    <Routes>
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/marketplace" element={<Marketplace />} />
-    </Routes>
-
-    <Footer/>
-
+      <SEO />
+      <CustomCursor />
+      <Navbar />
+      <PageTransition />
+      <Footer />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

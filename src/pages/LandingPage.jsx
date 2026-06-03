@@ -10,7 +10,7 @@ function LandingPage() {
       <section id="home"><Home /></section>
       <section id="about"><AboutUs /></section>
       <section id="testimonials"><Testimonials /></section>
-      <section id="contact"><ContactUs /></section>
+      <ContactUs />
     </>
   )
 }

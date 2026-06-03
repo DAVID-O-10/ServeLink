@@ -31,7 +31,7 @@ function Home() {
   return (
     <>
       {/* HERO SECTION — id="home" for navbar scroll */}
-      <section id="home" className="relative w-full h-[110vh] overflow-hidden">
+      <section id="home" className="relative w-full h-[100vh] overflow-hidden">
  
         {/* Background images */}
         {images.map((img, index) => (
@@ -114,6 +114,7 @@ function Home() {
           >
             <a
               href="/marketplace"
+              data-cursor="pointer"
               className="px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-white font-semibold rounded-2xl transition-all duration-300 hover:shadow-[0_0_30px_rgba(52,211,153,0.5)] hover:-translate-y-1"
             >
               Explore Marketplace
@@ -151,7 +152,7 @@ function Home() {
         {/* Scroll down indicator */}
         <button
           onClick={handleScrollDown}
-          className="absolute bottom-30 left-[103vh] -translate-x-1/2 z-20 text-white/60 hover:text-white transition-all duration-300 flex flex-col items-center gap-1"
+          className="absolute bottom-10 left-55 md:left-115 lg:left-248 -translate-x-1/2 z-20 text-white/60 hover:text-white transition-all duration-300 flex flex-col items-center gap-1"
           style={{
             opacity: loaded ? 1 : 0,
             transition: 'opacity 1s ease 1.5s',

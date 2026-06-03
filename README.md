@@ -1,17 +1,35 @@
-# React + Vite
+# ServeLink
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Local business marketplace for Nigeria — find, connect, and get it done.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Landing page with hero, about stats, testimonials, and contact form
+- **Marketplace** — search, filter, sort, grid/list view, map view
+- **Business profiles** — gallery, reviews, quote requests, share, report
+- **Accounts** — register/sign in (local or Supabase)
+- **Owner dashboard** — analytics and quote requests
+- **Favorites** — save businesses
+- **Dark mode**, PWA install, scroll spy navbar, page transitions
 
-## React Compiler
+## Run locally
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+npm install
+npm run dev
+```
 
-## Expanding the ESLint configuration
+## Optional Supabase
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-"# ServeLink" 
+1. Create a project at [supabase.com](https://supabase.com)
+2. Run `supabase/schema.sql` in the SQL editor
+3. Copy `.env.example` to `.env` and add your URL and anon key
+
+Without Supabase, all data is stored in the browser (localStorage) and works offline after first load.
+
+## Build
+
+```bash
+npm run build
+npm run preview
+```
