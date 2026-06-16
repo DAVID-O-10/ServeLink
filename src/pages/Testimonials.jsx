@@ -11,7 +11,7 @@ import p9 from "../assets/rayul-_M6gy9oHgII-unsplash.jpg";
 
 const TESTIMONIALS = [
   { id: 1, image: p1, name: "Aisha",   role: "Freelance Designer",  text: "ServeLink helped me land consistent clients within weeks. The experience feels completely seamless.", rating: 5, accent: "#10b981" },
-  { id: 2, image: p2, name: "Daniel",  role: "Software Developer",  text: "The platform is incredibly smooth and intuitive — everything just works without any friction.", rating: 4, accent: "#3b82f6" },
+  { id: 2, image: p2, name: "Luna",  role: "Software Developer",  text: "The platform is incredibly smooth and intuitive — everything just works without any friction.", rating: 4, accent: "#3b82f6" },
   { id: 3, image: p3, name: "Samuel",  role: "Electrician",         text: "A reliable system that connects you with real opportunities. I highly recommend it.", rating: 5, accent: "#f97316" },
   { id: 4, image: p4, name: "Grace",   role: "Private Tutor",       text: "I got my first serious client faster than expected. The whole process felt very professional.", rating: 5, accent: "#a855f7" },
   { id: 5, image: p5, name: "Michael", role: "Logistics Provider",  text: "Clean interface, dependable connections, and genuinely useful — exactly what I needed.", rating: 4, accent: "#ef4444" },
@@ -79,7 +79,7 @@ function Avatar({ t, index, inView, onClick }) {
 /* ── Popup card (fixed-positioned, portal-like) ── */
 function TestimonialPopup({ t, anchorRect, onClose }) {
   const popupRef = useRef(null);
-  const POPUP_W = 300;
+  const POPUP_W = Math.min(300, window.innerWidth - 32);
   const POPUP_H = 210; // approximate
   const PAD = 16;
 
@@ -299,7 +299,7 @@ export default function Testimonials() {
           </svg>
 
           {/* 3×3 grid of avatars */}
-          <div className="grid grid-cols-3 gap-y-16 sm:gap-y-20 gap-x-4 sm:gap-x-8 px-4 sm:px-0">
+          <div className="grid grid-cols-3 gap-y-10 sm:gap-y-16 lg:gap-y-20 gap-x-2 sm:gap-x-4 lg:gap-x-8 px-2 sm:px-0">
             {TESTIMONIALS.map((t, i) => {
               // Varied vertical offsets for organic feel — safe Tailwind classes
               const offsets = [

@@ -57,7 +57,14 @@ export default function OwnerDashboard() {
               <Building2 size={22} /> Your listings ({myBusinesses.length})
             </h2>
             {myBusinesses.length === 0 ? (
-              <p className="text-gray-500 text-sm">No listings yet.</p>
+              <div className="bg-gray-100 dark:bg-gray-800/50 rounded-2xl p-8 text-center">
+                <Building2 size={48} className="mx-auto text-gray-300 dark:text-gray-600 mb-4" />
+                <p className="text-gray-500 font-medium">You haven't created any listings yet.</p>
+                <p className="text-gray-400 text-sm mt-2">List your first business and start receiving quote requests.</p>
+                <Link to="/marketplace" className="inline-block mt-4 px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-2xl transition-all text-sm">
+                  Create your first listing
+                </Link>
+              </div>
             ) : (
               <ul className="space-y-3">
                 {myBusinesses.map((b) => (
@@ -84,7 +91,11 @@ export default function OwnerDashboard() {
               <BarChart3 size={22} /> Quote requests ({bookings.length})
             </h2>
             {bookings.length === 0 ? (
-              <p className="text-gray-500 text-sm">No quote requests yet.</p>
+              <div className="bg-gray-100 dark:bg-gray-800/50 rounded-2xl p-8 text-center">
+                <BarChart3 size={48} className="mx-auto text-gray-300 dark:text-gray-600 mb-4" />
+                <p className="text-gray-500 font-medium">No quote requests yet.</p>
+                <p className="text-gray-400 text-sm mt-2">Quote requests from customers will appear here once your listing is live.</p>
+              </div>
             ) : (
               <ul className="space-y-3 max-h-80 overflow-y-auto">
                 {bookings.map((q) => (

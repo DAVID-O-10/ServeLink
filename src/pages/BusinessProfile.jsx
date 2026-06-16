@@ -17,6 +17,13 @@ import {
 } from '../lib/storage';
 import { trackAnalytics as trackRemote, reportListing } from '../lib/businessService';
 
+function getWhatsAppUrl(phone, message = '') {
+  const number = String(phone || '').replace(/\D/g, '');
+  if (!number) return null;
+  const encoded = message ? `?text=${encodeURIComponent(message)}` : '';
+  return `https://wa.me/${number}${encoded}`;
+}
+
 const PLACEHOLDER =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect width='400' height='300' fill='%23f3f4f6'/%3E%3C/svg%3E";
 
@@ -124,16 +131,16 @@ export default function BusinessProfile() {
         </Link>
 
         <article className="max-w-5xl mx-auto bg-white dark:bg-gray-800 rounded-[32px] overflow-hidden shadow-xl border border-gray-200 dark:border-gray-700">
-          <div className="relative h-[280px] lg:h-[420px] bg-gray-100">
+          <div className="relative h-[240px] sm:h-[280px] lg:h-[420px] bg-gray-100">
             <img src={images[galleryIdx]} alt="" className="w-full h-full object-cover" />
             {images.length > 1 && (
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 max-w-[90vw] overflow-x-auto px-2 pb-1">
                 {images.map((img, i) => (
                   <button
                     key={i}
                     type="button"
                     onClick={() => setGalleryIdx(i)}
-                    className={`w-14 h-14 rounded-xl overflow-hidden border-2 ${i === galleryIdx ? 'border-emerald-500' : 'border-white/50'}`}
+                    className={`shrink-0 w-10 h-10 sm:w-14 sm:h-14 rounded-lg sm:rounded-xl overflow-hidden border-2 ${i === galleryIdx ? 'border-emerald-500' : 'border-white/50'}`}
                   >
                     <img src={img} alt="" className="w-full h-full object-cover" />
                   </button>
@@ -189,23 +196,27 @@ export default function BusinessProfile() {
                   </div>
                 )}
               </div>
-              <div className="flex gap-3">
+              <div className="flex gap-2 sm:gap-3">
                 <button
                   type="button"
                   onClick={() => {
                     trackRemote(business.id, 'whatsappClicks');
-                    window.open(`https://wa.me/${business.whatsapp.replace(/\D/g, '')}`, '_blank');
+                    const url = getWhatsAppUrl(
+                      business.whatsapp,
+                      `Hi, I found your business (${business.businessName}) on ServeLink and I would like to know more.`
+                    );
+                    if (url) window.open(url, '_blank');
                   }}
-                  className="h-12 px-6 rounded-2xl bg-emerald-500 text-white font-semibold flex items-center gap-2"
+                  className="h-12 px-4 sm:px-6 rounded-2xl bg-emerald-500 text-white font-semibold flex items-center gap-2 text-sm sm:text-base"
                 >
-                  <Phone size={16} /> WhatsApp
+                  <Phone size={16} /> Contact Us
                 </button>
                 <a
                   href={business.locationLink}
                   target="_blank"
                   rel="noreferrer"
                   onClick={() => trackRemote(business.id, 'mapsClicks')}
-                  className="h-12 px-6 rounded-2xl bg-gray-800 text-white font-semibold flex items-center gap-2"
+                  className="h-12 px-4 sm:px-6 rounded-2xl bg-gray-800 text-white font-semibold flex items-center gap-2 text-sm sm:text-base"
                 >
                   <MapPin size={16} /> Maps
                 </a>
@@ -297,8 +308,23 @@ export default function BusinessProfile() {
                 <button
                   type="button"
                   onClick={async () => {
-                    await remove(business.id, user?.userId);
-                    navigate('/marketplace');
+                    try {
+                      const result = await remove(business.id, user?.userId);
+                      if (result.remoteAttempted) {
+                        if (result.remoteRemoved) {
+                          toastMsg('Listing removed from Supabase and local storage.');
+                        } else {
+                          toastMsg('Listing removed locally, but remote delete failed.');
+                        }
+                      } else {
+                        toastMsg('Listing removed locally.');
+                      }
+                      setDeleteConfirm(false);
+                      setTimeout(() => navigate('/marketplace'), 1100);
+                    } catch (e) {
+                      console.error(e);
+                      toastMsg(e.message || 'Remove failed.');
+                    }
                   }}
                   className="flex-1 h-11 bg-red-500 text-white rounded-xl font-semibold"
                 >
@@ -310,7 +336,7 @@ export default function BusinessProfile() {
         )}
 
         {toast && (
-          <div className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-5 py-2 rounded-xl text-sm z-[300]">
+          <div className="fixed bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-5 py-2 rounded-xl text-sm z-[300] whitespace-nowrap">
             {toast}
           </div>
         )}

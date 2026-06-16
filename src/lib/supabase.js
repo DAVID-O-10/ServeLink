@@ -12,3 +12,18 @@ if (import.meta.env.DEV) {
 export const supabase = isSupabaseConfigured
   ? createClient(url, key)
   : null;
+
+if (import.meta.env.DEV && isSupabaseConfigured && supabase) {
+  supabase
+    .from('businesses')
+    .select('id')
+    .limit(1)
+    .then(({ data, error }) => {
+      if (error) {
+        console.error('Supabase test error:', error);
+      } else {
+        console.log('Supabase test success:', data);
+      }
+    })
+    .catch((e) => console.error('Supabase test exception:', e));
+}

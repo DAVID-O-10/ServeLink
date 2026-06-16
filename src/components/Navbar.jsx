@@ -98,7 +98,7 @@ export default function Navbar() {
                 `${linkClass(isActive)} inline-flex items-center gap-1.5`
               }
             >
-              <Heart size={16} className="shrink-0" strokeWidth={2} />
+              <Heart size={18} className="shrink-0" strokeWidth={2} color='white'  />
               Saved
             </NavLink>
           </li>
@@ -134,7 +134,7 @@ export default function Navbar() {
           )}
           <NavLink to="/marketplace">
             <button type="button" className="px-5 py-2.5 bg-emerald-500 text-white rounded-xl text-sm font-semibold hover:bg-emerald-600 transition-all hover:-translate-y-0.5">
-              Get Started
+              Get Connected
             </button>
           </NavLink>
         </div>
@@ -157,7 +157,7 @@ export default function Navbar() {
 
       <div
         className={`lg:hidden absolute top-[calc(100%+0.5rem)] left-0 w-full rounded-2xl bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border border-gray-200 dark:border-gray-700 shadow-xl overflow-hidden transition-all duration-300 ${
-          menuOpen ? 'max-h-[520px] opacity-100' : 'max-h-0 opacity-0'
+          menuOpen ? 'max-h-[80vh] opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
         <ul className="flex flex-col items-center py-4 space-y-1 font-medium">
@@ -201,7 +201,7 @@ export default function Navbar() {
           </button>
           <NavLink to="/marketplace" className="flex-1">
             <button type="button" className="w-full py-3 bg-emerald-500 text-white rounded-xl font-semibold">
-              Get Started
+              Get Connected
             </button>
           </NavLink>
         </div>

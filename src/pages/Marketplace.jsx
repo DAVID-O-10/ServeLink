@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Plus, Search, Building2, X, LayoutGrid, List, Map } from 'lucide-react';
 import SEO from '../components/SEO';
 import MapView from '../components/MapView';
@@ -9,6 +9,7 @@ import { useBusinesses } from '../context/BusinessContext';
 import { BUSINESS_CATEGORIES, SORT_OPTIONS } from '../constants/categories';
 import { getAverageRating, StorageError } from '../lib/storage';
 import { trackAnalytics } from '../lib/businessService';
+import { useDebounce } from '../hooks/useDebounce';
 
 function SkeletonCard() {
   return (
@@ -28,6 +29,7 @@ export default function Marketplace() {
   const { businesses, favorites, loading, upsert, toggleFavorite } = useBusinesses();
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const debouncedSearch = useDebounce(searchTerm, 300);
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [sortBy, setSortBy] = useState('newest');
   const [viewMode, setViewMode] = useState('grid');
@@ -42,7 +44,7 @@ export default function Marketplace() {
 
   const filtered = useMemo(() => {
     let list = businesses.filter((b) => {
-      const q = searchTerm.toLowerCase();
+      const q = debouncedSearch.toLowerCase();
       const matchesSearch =
         !q ||
         b.businessName?.toLowerCase().includes(q) ||
@@ -158,6 +160,12 @@ export default function Marketplace() {
                   <option key={o.value} value={o.value}>{o.label}</option>
                 ))}
               </select>
+              <Link
+                to="/categories"
+                className="hidden lg:inline-flex items-center gap-2 h-14 px-5 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-emerald-600 font-semibold text-sm hover:bg-emerald-50 dark:hover:bg-gray-700 transition-all"
+              >
+                Browse categories
+              </Link>
             </div>
             <div className="flex flex-wrap gap-2 items-center justify-between">
               <div className="flex gap-2">
@@ -183,6 +191,9 @@ export default function Marketplace() {
                   <Map size={20} /> Map
                 </button>
               </div>
+              <Link to="/categories" className="lg:hidden text-sm text-emerald-600 font-semibold">
+                Browse categories
+              </Link>
               {(searchTerm || categoryFilter !== 'All') && (
                 <button type="button" onClick={clearFilters} className="text-sm text-emerald-600 font-semibold">
                   Clear filters
@@ -261,7 +272,7 @@ export default function Marketplace() {
       />
 
       {toastMsg && (
-        <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-[300] bg-gray-900 text-white px-6 py-3 rounded-2xl shadow-xl text-sm">
+        <div className="fixed bottom-4 sm:bottom-24 left-1/2 -translate-x-1/2 z-[300] bg-gray-900 text-white px-6 py-3 rounded-2xl shadow-xl text-sm whitespace-nowrap">
           {toastMsg}
         </div>
       )}

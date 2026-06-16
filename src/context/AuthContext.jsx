@@ -6,12 +6,14 @@ import {
   registerUser as registerLocal,
   loginUser as loginLocal,
 } from '../lib/storage';
+import { useRecaptcha } from '../hooks/useRecaptcha';
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => getSession());
   const [loading, setLoading] = useState(isSupabaseConfigured);
+  const { getToken } = useRecaptcha();
 
   useEffect(() => {
     const sync = () => setUser(getSession());
@@ -57,10 +59,11 @@ export function AuthProvider({ children }) {
 
   const register = useCallback(async ({ name, email, password }) => {
     if (isSupabaseConfigured) {
+      const captchaToken = await getToken();
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
-        options: { data: { name } },
+        options: { data: { name }, captchaToken },
       });
       if (error) throw error;
       if (data.user) {
@@ -77,11 +80,12 @@ export function AuthProvider({ children }) {
     const u = registerLocal({ name, email, password });
     setUser(getSession());
     return u;
-  }, []);
+  }, [getToken]);
 
   const login = useCallback(async (email, password) => {
     if (isSupabaseConfigured) {
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      const captchaToken = await getToken();
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password, options: { captchaToken } });
       if (error) throw error;
       setUser(getSession());
       return data.user;
@@ -89,7 +93,22 @@ export function AuthProvider({ children }) {
     loginLocal(email, password);
     setUser(getSession());
     return getSession();
-  }, []);
+  }, [getToken]);
+
+  const signInWithGoogle = useCallback(async () => {
+    if (!isSupabaseConfigured) {
+      throw new Error('Supabase is not configured');
+    }
+    const captchaToken = await getToken();
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: window.location.origin,
+        captchaToken,
+      },
+    });
+    if (error) throw error;
+  }, [getToken]);
 
   const logout = useCallback(async () => {
     if (isSupabaseConfigured) await supabase.auth.signOut();
@@ -98,7 +117,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading, register, login, logout, isAuthenticated: Boolean(user) }}>
+    <AuthContext.Provider value={{ user, loading, register, login, logout, signInWithGoogle, isAuthenticated: Boolean(user) }}>
       {children}
     </AuthContext.Provider>
   );

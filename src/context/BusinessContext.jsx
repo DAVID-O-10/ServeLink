@@ -40,8 +40,9 @@ export function BusinessProvider({ children }) {
   }, []);
 
   const remove = useCallback(async (id, userId) => {
-    await removeBusiness(id, userId);
+    const result = await removeBusiness(id, userId);
     await refresh();
+    return result;
   }, [refresh]);
 
   const toggleFavorite = useCallback((id) => {

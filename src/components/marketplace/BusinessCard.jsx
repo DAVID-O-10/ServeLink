@@ -6,6 +6,13 @@ import { getAverageRating } from '../../lib/storage';
 const PLACEHOLDER =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect width='400' height='300' fill='%23f3f4f6'/%3E%3Ctext x='50%25' y='50%25' font-size='16' fill='%239ca3af' text-anchor='middle' dominant-baseline='middle'%3ENo Image%3C/text%3E%3C/svg%3E";
 
+function getWhatsAppUrl(phone, message = '') {
+  const number = String(phone || '').replace(/\D/g, '');
+  if (!number) return null;
+  const encoded = message ? `?text=${encodeURIComponent(message)}` : '';
+  return `https://wa.me/${number}${encoded}`;
+}
+
 export default function BusinessCard({
   business,
   isFavorite,
@@ -67,7 +74,7 @@ export default function BusinessCard({
                 e.stopPropagation();
                 onShare(business);
               }}
-              className="w-9 h-9 rounded-full bg-white/80 backdrop-blur-sm hover:bg-white flex items-center justify-center shadow-md opacity-0 group-hover:opacity-100 transition-opacity"
+              className="w-9 h-9 rounded-full bg-white/80 backdrop-blur-sm hover:bg-white flex items-center justify-center shadow-md sm:opacity-0 sm:group-hover:opacity-100 transition-opacity"
             >
               <Share2 size={15} className="text-gray-700" />
             </button>
@@ -100,13 +107,16 @@ export default function BusinessCard({
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              const number = business.whatsapp.replace(/\D/g, '');
-              window.open(`https://wa.me/${number}?text=Hi%2C%20I%20found%20your%20business%20on%20ServeLink%20and%20I%27d%20like%20to%20know%20more.`, '_blank');
+              const url = getWhatsAppUrl(
+                business.whatsapp,
+                `Hi, I found your business (${business.businessName}) on ServeLink and I'd like to know more.`
+              );
+              if (url) window.open(url, '_blank');
             }}
             className="w-full h-12 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-semibold flex justify-center items-center gap-2 text-sm mt-auto"
           >
             <Phone size={16} />
-            Contact on WhatsApp
+            Contact Us
           </button>
         </div>
       </article>

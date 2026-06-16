@@ -118,13 +118,24 @@ export async function removeBusiness(id, userId) {
     throw new Error('You can only delete your own listings');
   }
   deleteLocal(id);
+
+  let remoteRemoved = false;
+  const remoteAttempted = Boolean(isSupabaseConfigured);
+
   if (isSupabaseConfigured) {
     try {
-      await supabase.from(TABLE).delete().eq('id', id);
+      const { error } = await supabase.from(TABLE).delete().eq('id', id);
+      if (error) {
+        console.warn('Supabase delete failed', error);
+      } else {
+        remoteRemoved = true;
+      }
     } catch (e) {
       console.warn('Supabase delete failed', e);
     }
   }
+
+  return { remoteRemoved, remoteAttempted };
 }
 
 export function trackAnalytics(id, field) {

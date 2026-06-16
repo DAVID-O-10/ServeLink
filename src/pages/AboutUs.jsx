@@ -26,7 +26,7 @@ function StatCard({ value, label, delay, inView }) {
   const count = useCountUp(value, 1200, inView)
   return (
     <div
-      className="relative flex flex-col items-center justify-center py-8 px-4 rounded-3xl overflow-hidden border border-emerald-100 dark:border-emerald-900/40 bg-gradient-to-br from-emerald-50 to-emerald-100/90 dark:from-gray-800 dark:to-gray-800/80"
+      className="relative flex flex-col items-center justify-center py-4 sm:py-8 px-2 sm:px-4 rounded-2xl sm:rounded-3xl overflow-hidden border border-emerald-100 dark:border-emerald-900/40 bg-gradient-to-br from-emerald-50 to-emerald-100/90 dark:from-gray-800 dark:to-gray-800/80"
       style={{
         opacity: inView ? 1 : 0,
         transform: inView ? 'translateY(0)' : 'translateY(20px)',
@@ -46,7 +46,7 @@ function StatCard({ value, label, delay, inView }) {
       >
         {count}
       </span>
-      <p className="mt-2 text-gray-600 dark:text-gray-400 text-sm font-semibold text-center tracking-wide uppercase">
+      <p className="mt-2 text-gray-600 dark:text-gray-400 text-[10px] sm:text-sm font-semibold text-center tracking-wide uppercase leading-tight">
         {label}
       </p>
     </div>
@@ -197,7 +197,7 @@ export default function AboutUs() {
           </p>
 
           {/* stats grid */}
-          <div className="grid grid-cols-3 gap-4 pt-2">
+          <div className="grid grid-cols-3 gap-2 sm:gap-4 pt-2">
             {stats.map((s, i) => (
               <StatCard
                 key={s.label}

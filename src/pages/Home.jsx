@@ -1,47 +1,61 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { ChevronDown } from 'lucide-react'
 import image1 from '../assets/carlos-muza-hpjSkU2UYSU-unsplash.jpg'
 import image2 from '../assets/emmanuel-ikwuegbu-_2AlIm-F6pw-unsplash.jpg'
 import image3 from '../assets/john-karlo-mendoza-idzUojjazCg-unsplash.jpg'
 import image4 from '../assets/linkedin-sales-solutions-YDVdprpgHv4-unsplash.jpg'
- 
+
 function Home() {
-  const images = [image1, image2, image3, image4];
+  const imageImports = [image1, image2, image3, image4];
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loaded, setLoaded] = useState(false);
- 
+  const [preloaded, setPreloaded] = useState(new Set([0]));
+
   useEffect(() => {
-    // Trigger entrance animation
     const t = setTimeout(() => setLoaded(true), 100);
     return () => clearTimeout(t);
   }, []);
- 
+
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex(prev => (prev + 1) % images.length);
+      setCurrentIndex(prev => (prev + 1) % imageImports.length);
     }, 5000);
     return () => clearInterval(interval);
   }, []);
- 
+
+  useEffect(() => {
+    if (preloaded.has(currentIndex)) return;
+    setPreloaded(prev => new Set(prev).add(currentIndex));
+  }, [currentIndex, preloaded]);
+
+  const images = useMemo(() =>
+    imageImports.map((src, i) => ({
+      src,
+      loaded: preloaded.has(i),
+      isActive: i === currentIndex,
+    })),
+    [imageImports, preloaded, currentIndex]
+  );
+
   const handleScrollDown = () => {
     const el = document.getElementById('about');
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
- 
+
   return (
     <>
-      {/* HERO SECTION — id="home" for navbar scroll */}
       <section id="home" className="relative w-full h-[100vh] overflow-hidden">
- 
-        {/* Background images */}
         {images.map((img, index) => (
-          <div
+          <img
             key={index}
-            className="absolute inset-0 bg-center bg-cover"
+            src={img.src}
+            alt=""
+            loading={index === 0 ? 'eager' : 'lazy'}
+            fetchpriority={index === 0 ? 'high' : 'low'}
+            className="absolute inset-0 w-full h-full object-cover"
             style={{
-              backgroundImage: `url(${img})`,
-              opacity: index === currentIndex ? 1 : 0,
-              transform: index === currentIndex ? 'scale(1.08)' : 'scale(1)',
+              opacity: img.isActive ? 1 : 0,
+              transform: img.isActive ? 'scale(1.08)' : 'scale(1)',
               transition: 'opacity 1.2s ease-in-out, transform 6s ease-in-out',
             }}
           />
@@ -135,7 +149,7 @@ function Home() {
               transition: 'opacity 0.8s ease 1.2s',
             }}
           >
-            {images.map((_, i) => (
+            {imageImports.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setCurrentIndex(i)}
@@ -152,7 +166,7 @@ function Home() {
         {/* Scroll down indicator */}
         <button
           onClick={handleScrollDown}
-          className="absolute bottom-10 left-55 md:left-115 lg:left-248 -translate-x-1/2 z-20 text-white/60 hover:text-white transition-all duration-300 flex flex-col items-center gap-1"
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 text-white/60 hover:text-white transition-all duration-300 flex flex-col items-center gap-1"
           style={{
             opacity: loaded ? 1 : 0,
             transition: 'opacity 1s ease 1.5s',
