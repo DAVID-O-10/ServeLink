@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-const SITE = 'https://servelink.com';
+const SITE = 'https://serve-link-swart.vercel.app';
 
 const DEFAULT = {
   title: 'ServeLink — Find, Connect, Get It Done',
