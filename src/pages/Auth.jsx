@@ -56,7 +56,7 @@ export default function Auth() {
 
   return (
     <>
-      <SEO title={mode === 'login' ? 'Sign in' : 'Create account'} />
+      <SEO title={mode === 'login' ? 'Sign in' : 'Create account'} url="/login" />
       <section className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4 pt-28 pb-16">
         <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-[32px] p-8 shadow-xl border border-gray-200 dark:border-gray-700">
           <h1 className="text-3xl font-black text-gray-800 dark:text-white">

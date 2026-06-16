@@ -121,7 +121,7 @@ export default function BusinessProfile() {
 
   return (
     <>
-      <SEO title={business.businessName} description={business.description?.slice(0, 160)} />
+      <SEO title={business.businessName} description={business.description?.slice(0, 160)} url={`/marketplace/${id}`} />
       <section className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-28 pb-20 px-4 lg:px-10">
         <Link
           to="/marketplace"

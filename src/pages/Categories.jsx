@@ -34,7 +34,7 @@ export default function Categories() {
 
   return (
     <>
-      <SEO title="Browse categories" />
+      <SEO title="Browse categories" url="/categories" />
       <section className="min-h-screen bg-gray-50 dark:bg-gray-900 px-4 pt-28 pb-16">
         <div className="max-w-6xl mx-auto">
           <h1 className="text-3xl font-black text-gray-800 dark:text-white">Browse categories</h1>

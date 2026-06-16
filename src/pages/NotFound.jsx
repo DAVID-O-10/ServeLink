@@ -4,7 +4,7 @@ import SEO from '../components/SEO';
 export default function NotFound() {
   return (
     <>
-      <SEO title="Page not found" />
+      <SEO title="Page not found" url="/404" />
       <section className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4 pt-28 pb-16">
         <div className="text-center max-w-md">
           <h1 className="text-8xl font-black text-gray-200 dark:text-gray-700 select-none">404</h1>

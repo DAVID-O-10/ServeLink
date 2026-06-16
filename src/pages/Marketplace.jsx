@@ -107,7 +107,7 @@ export default function Marketplace() {
 
   return (
     <>
-      <SEO title="Marketplace" description="Discover trusted local businesses on ServeLink." />
+      <SEO title="Marketplace" description="Discover trusted local businesses on ServeLink." url="/marketplace" />
       <section className="min-h-screen w-full bg-gray-50 dark:bg-gray-900 px-4 lg:px-10 pt-36 pb-28">
         <div className="flex flex-col gap-6">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">

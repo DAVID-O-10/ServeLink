@@ -32,7 +32,7 @@ export default function OwnerDashboard() {
 
   return (
     <>
-      <SEO title="Dashboard" />
+      <SEO title="Dashboard" url="/dashboard" />
       <section className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-32 pb-20 px-4 lg:px-10">
         <h1 className="text-4xl font-black text-gray-800 dark:text-white">Owner dashboard</h1>
         <p className="text-gray-500 mt-2">Hello, {user.name}</p>

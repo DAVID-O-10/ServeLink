@@ -18,7 +18,7 @@ export default function Favorites() {
 
   return (
     <>
-      <SEO title="Saved businesses" />
+      <SEO title="Saved businesses" url="/favorites" />
       <section className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-32 pb-20 px-4 lg:px-10">
         <h1 className="text-4xl font-black text-gray-800 dark:text-white flex items-center gap-3">
           <Heart className="text-red-500 fill-red-500" size={36} /> Saved
