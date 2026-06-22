@@ -1,3 +1,6 @@
+# MCP directories
+.playwright-mcp/
+
 # Logs
 logs
 *.log
