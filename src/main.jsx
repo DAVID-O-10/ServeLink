@@ -6,20 +6,17 @@ import App from './App.jsx';
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { BusinessProvider } from './context/BusinessContext';
-import LoadingScreen from './components/LoadingScreen';
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
-    <LoadingScreen>
-      <StrictMode>
-        <ThemeProvider>
-          <AuthProvider>
-            <BusinessProvider>
-              <App />
-            </BusinessProvider>
-          </AuthProvider>
-        </ThemeProvider>
-      </StrictMode>
-    </LoadingScreen>
+    <StrictMode>
+      <ThemeProvider>
+        <AuthProvider>
+          <BusinessProvider>
+            <App />
+          </BusinessProvider>
+        </AuthProvider>
+      </ThemeProvider>
+    </StrictMode>
   </BrowserRouter>
 );
