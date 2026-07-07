@@ -4,6 +4,14 @@
       "handle": "filesystem"
     },
     {
+      "src": "/sitemap\\.xml",
+      "destination": "/sitemap.xml"
+    },
+    {
+      "src": "/robots\\.txt",
+      "destination": "/robots.txt"
+    },
+    {
       "src": "/(.*)",
       "destination": "/index.html"
     }

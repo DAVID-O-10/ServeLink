@@ -1,5 +1,17 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "skills": {
+    "paths": [
+      "~/.agents/skills",
+      "~/.config/opencode/skills"
+    ]
+  },
+  "references": {
+    "design-system": {
+      "path": "~/.config/opencode/skills",
+      "description": "Use for design system patterns, UI components, and frontend architecture"
+    }
+  },
   "mcp": {
     "composio": {
       "type": "remote",
@@ -7,6 +19,18 @@
       "headers": {
         "x-consumer-api-key": "{env:COMPOSIO_API_KEY}"
       }
+    }
+  },
+  "permission": {
+    "edit": "ask",
+    "bash": {
+      "git *": "allow",
+      "npm *": "allow",
+      "npx *": "allow",
+      "node *": "allow",
+      "yarn *": "allow",
+      "pnpm *": "allow",
+      "*": "ask"
     }
   }
 }
